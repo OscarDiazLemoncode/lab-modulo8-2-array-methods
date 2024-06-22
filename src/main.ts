@@ -83,33 +83,23 @@ const pacientes: Pacientes[] = [
 
 // a) Extraer la lista de paciente que están asignados a la especialidad de Pediatría
 const obtenPacientesAsignadosAPediatria = (
-  arrayPacientes: Pacientes[]
+  pacientes: Pacientes[]
 ): Pacientes[] => {
-  let fichaPediatra: Pacientes[] = [];
-  let i = 0;
-  while (i < arrayPacientes.length) {
-    let el = arrayPacientes[i];
-    el.especialidad === 'Pediatra'
-      ? (fichaPediatra = [...fichaPediatra, el])
-      : '';
-    i++;
-  }
+  const fichaPediatria: Pacientes[] = pacientes.filter(
+    (paciente) => paciente.especialidad === 'Pediatra'
+  );
   console.warn('ficha asignados a pediatria');
-  console.table(fichaPediatra);
-  return fichaPediatra;
+  console.table(fichaPediatria);
+  return fichaPediatria;
 };
 
 // b) Extraer la lista de pacientes asignados a Pediatría y que tengan una edad menor de 10 años
 const obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios = (
-  fichaPediatra: Pacientes[]
+  pacientes: Pacientes[]
 ): Pacientes[] => {
-  let fichaPediatraMenorDeDiezAnios: Pacientes[] = [];
-  for (let i = 0; i < fichaPediatra.length; i++) {
-    const el = fichaPediatra[i];
-    if (el.edad < 10) {
-      fichaPediatraMenorDeDiezAnios = [...fichaPediatraMenorDeDiezAnios, el];
-    }
-  }
+  const fichaPediatraMenorDeDiezAnios: Pacientes[] = pacientes.filter(
+    (paciente) => paciente.especialidad === 'Pediatra' && paciente.edad < 10
+  );
   console.warn('ficha pediatria < 10 años');
   console.table(fichaPediatraMenorDeDiezAnios);
   return fichaPediatraMenorDeDiezAnios;
@@ -117,58 +107,23 @@ const obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios = (
 
 /* Apartado 2 */
 // Protocolo de urgencia
-const activarProtocoloUrgencia = (arrayPacientes: Pacientes[]): boolean => {
-  let activarProctolo = false;
-  // Con bucle for
-  /* for (let i = 0; i < arrayPacientes.length; i++) {
-    const el = arrayPacientes[i];
-    el.temperatura > 39.1 && el.frecuenciaCardiaca > 100
-      ? (activarProctolo = true)
-      : console.log('No se activa el protocolo de urgencia');
-  } */
-  let i = 0;
-  while (
-    i < arrayPacientes.length &&
-    arrayPacientes[i].temperatura > 39.1 &&
-    arrayPacientes[i].frecuenciaCardiaca > 100
-  ) {
-    activarProctolo = true;
-  }
-  console.warn(`ACTIVAR PROTOCOLO DE URGENCIA => ${activarProctolo}`);
-  return activarProctolo;
+const activarProtocoloUrgencia = (pacientes: Pacientes[]): boolean => {
+  const activarProtocoloUrgencia: boolean = pacientes.some(
+    (paciente) => paciente.frecuenciaCardiaca > 100 && paciente.temperatura > 39
+  );
+
+  console.warn(`ACTIVAR PROTOCOLO DE URGENCIA => ${activarProtocoloUrgencia}`);
+  return activarProtocoloUrgencia;
 };
 
 /* Apartado 3 */
-const reasignaPacientesAMedicoFamilia = (
-  arrayPacientes: Pacientes[]
-): Pacientes[] => {
-  let fichaDePediatriaAMedicoDeFamilia: Pacientes[] = [];
-  for (let i = 0; i < arrayPacientes.length; i++) {
-    const el = arrayPacientes[i];
-    if (arrayPacientes) {
-      fichaDePediatriaAMedicoDeFamilia = [
-        ...fichaDePediatriaAMedicoDeFamilia,
-        { ...el, especialidad: 'Medico de familia' },
-      ];
-    } else {
-      console.error(
-        'No hay pacientes en Pediatria para asignarlos a Médico de familia'
-      );
-    }
-  }
-  /* let i = 0;
-  while (i < arrayPacientes.length) {
-    const el = arrayPacientes[i];
-    if (el.especialidad === 'Pediatra') {
-      fichaDePediatriaAMedicoDeFamilia = [
-        ...fichaDePediatriaAMedicoDeFamilia,
-        { ...el, especialidad: 'Medico de familia' },
-      ];
-    }
-    i++;
-  } */
+const reasignaPacientesAMedicoFamilia = (pacientes: Pacientes[]) => {
+  const fichaDePediatriaAMedicoDeFamilia: Pacientes[] = pacientes.map(
+    (paciente) => console.log(paciente)
+  );
   console.warn('Reasigna pacientes de Pediatria a Médico de familia');
   console.table(fichaDePediatriaAMedicoDeFamilia);
+  console.table(pacientes);
   return fichaDePediatriaAMedicoDeFamilia;
 };
 
@@ -237,11 +192,12 @@ const cuentaPacientesPorEspecialidad = (
 document.addEventListener('DOMContentLoaded', () => {
   console.warn('array original');
   console.table(pacientes);
-  const fichaPediatra = obtenPacientesAsignadosAPediatria(pacientes);
-  obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(fichaPediatra);
+  obtenPacientesAsignadosAPediatria(pacientes);
+  obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(pacientes);
+  //obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(fichaPediatra);
   activarProtocoloUrgencia(pacientes);
   reasignaPacientesAMedicoFamilia(pacientes);
-  hayPacientesDePediatria(pacientes);
-  const totalPacientesEspecialdiad = cuentaPacientesPorEspecialidad(pacientes);
-  console.table(totalPacientesEspecialdiad);
+  //hayPacientesDePediatria(pacientes);
+  //const totalPacientesEspecialdiad = cuentaPacientesPorEspecialidad(pacientes);
+  //console.table(totalPacientesEspecialdiad);
 });
