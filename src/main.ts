@@ -118,13 +118,16 @@ const activarProtocoloUrgencia = (pacientes: Pacientes[]): boolean => {
 
 /* Apartado 3 */
 const reasignaPacientesAMedicoFamilia = (pacientes: Pacientes[]) => {
-  const fichaDePediatriaAMedicoDeFamilia: Pacientes[] = pacientes.map(
-    (paciente) => console.log(paciente)
-  );
+  return pacientes.map((paciente) => {
+    if (paciente.especialidad === 'Pediatra') {
+      return { ...paciente, especialidad: 'Médico de Familia' };
+    } else {
+      return paciente;
+    }
+  });
   console.warn('Reasigna pacientes de Pediatria a Médico de familia');
-  console.table(fichaDePediatriaAMedicoDeFamilia);
-  console.table(pacientes);
-  return fichaDePediatriaAMedicoDeFamilia;
+
+  //return fichaDePediatriaAMedicoDeFamilia;
 };
 
 /* Apartado 4 */
@@ -196,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
   obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(pacientes);
   //obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(fichaPediatra);
   activarProtocoloUrgencia(pacientes);
-  reasignaPacientesAMedicoFamilia(pacientes);
+  console.table(reasignaPacientesAMedicoFamilia(pacientes));
   //hayPacientesDePediatria(pacientes);
   //const totalPacientesEspecialdiad = cuentaPacientesPorEspecialidad(pacientes);
   //console.table(totalPacientesEspecialdiad);
