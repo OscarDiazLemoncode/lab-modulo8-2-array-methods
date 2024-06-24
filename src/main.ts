@@ -118,42 +118,26 @@ const activarProtocoloUrgencia = (pacientes: Pacientes[]): boolean => {
 
 /* Apartado 3 */
 const reasignaPacientesAMedicoFamilia = (pacientes: Pacientes[]) => {
-  return pacientes.map((paciente) => {
-    if (paciente.especialidad === 'Pediatra') {
-      return { ...paciente, especialidad: 'Médico de Familia' };
-    } else {
-      return paciente;
-    }
-  });
   console.warn('Reasigna pacientes de Pediatria a Médico de familia');
+  const fichaDePediatriaAMedicoDeFamilia: Pacientes[] = pacientes.map(
+    (paciente) => {
+      return paciente.especialidad === 'Pediatra'
+        ? { ...paciente, especialidad: 'Medico de familia' }
+        : paciente;
+    }
+  );
 
-  //return fichaDePediatriaAMedicoDeFamilia;
+  return fichaDePediatriaAMedicoDeFamilia;
 };
 
 /* Apartado 4 */
-const hayPacientesDePediatria = (arrayPacientes: Pacientes[]): boolean => {
-  let pacientesPediatria: boolean = false;
-  let arrayPacientePediatria: Pacientes[] = [];
-  /* for (let i = 0; i < arrayPacientes.length; i++) {
-    const el = arrayPacientes[i];
-    if (el.especialidad === 'Pediatra') {
-      pacientesPediatria = true;
-      arrayPacientePediatria = [...arrayPacientePediatria, el];
-    }
-  } */
-  let i = 0;
-  while (i < arrayPacientes.length) {
-    const el = arrayPacientes[i];
-    if (el.especialidad === 'Pediatra') {
-      pacientesPediatria = true;
-      arrayPacientePediatria = [...arrayPacientePediatria, el];
-    }
-    i++;
-  }
-  console.warn(`¿HAY PACIENTES DE PEDIATRIA? => ${pacientesPediatria}`);
-  console.warn(`LOS PACIENTES DE PEDIATRIA SON:`);
-  console.table(arrayPacientePediatria);
-  return pacientesPediatria;
+const hayPacientesDePediatria = (pacientes: Pacientes[]): boolean => {
+  const algunoDePediatria: boolean = pacientes.some((paciente) => {
+    paciente.especialidad === 'Pediatra'
+      ? console.warn('El pediatra NO se puede ir a casa')
+      : 'El pediatra se puede ir';
+  });
+  return algunoDePediatria;
 };
 
 /* Apartado 5 */
@@ -200,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(fichaPediatra);
   activarProtocoloUrgencia(pacientes);
   console.table(reasignaPacientesAMedicoFamilia(pacientes));
-  //hayPacientesDePediatria(pacientes);
+  hayPacientesDePediatria(pacientes);
   //const totalPacientesEspecialdiad = cuentaPacientesPorEspecialidad(pacientes);
   //console.table(totalPacientesEspecialdiad);
 });
