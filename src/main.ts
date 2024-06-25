@@ -148,32 +148,30 @@ interface NumeroPacientesPorEspecialidad {
 }
 
 const cuentaPacientesPorEspecialidad = (
-  arrayPacientes: Pacientes[]
+  pacientes: Pacientes[]
 ): NumeroPacientesPorEspecialidad => {
-  let medicoFamilia: number = 0;
-  let pediatra: number = 0;
-  let cardiologo: number = 0;
-  for (let i = 0; i < arrayPacientes.length; i++) {
-    const el = arrayPacientes[i];
-    switch (el.especialidad) {
-      case 'Medico de familia':
-        medicoFamilia++;
-        break;
-      case 'Pediatra':
-        pediatra++;
-        break;
-      case 'Cardiólogo':
-        cardiologo++;
-        break;
-      default:
-        break;
-    }
-  }
-  return {
-    medicoDeFamilia: medicoFamilia,
-    pediatria: pediatra,
-    cardiologia: cardiologo,
-  };
+  const pacientesEspecialidad: NumeroPacientesPorEspecialidad =
+    pacientes.reduce(
+      (total: NumeroPacientesPorEspecialidad, paciente: Pacientes) => {
+        switch (paciente.especialidad) {
+          case 'Medico de familia':
+            total.medicoDeFamilia++;
+            break;
+          case 'Pediatra':
+            total.pediatria++;
+            break;
+          case 'Cardiólogo':
+            total.cardiologia++;
+            break;
+          default:
+            break;
+        }
+        return total;
+      },
+      { medicoDeFamilia: 0, pediatria: 0, cardiologia: 0 }
+    );
+  console.table(pacientesEspecialidad);
+  return pacientesEspecialidad;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -181,10 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
   console.table(pacientes);
   obtenPacientesAsignadosAPediatria(pacientes);
   obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(pacientes);
-  //obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios(fichaPediatra);
   activarProtocoloUrgencia(pacientes);
   console.table(reasignaPacientesAMedicoFamilia(pacientes));
   hayPacientesDePediatria(pacientes);
-  //const totalPacientesEspecialdiad = cuentaPacientesPorEspecialidad(pacientes);
-  //console.table(totalPacientesEspecialdiad);
+  cuentaPacientesPorEspecialidad(pacientes);
 });
